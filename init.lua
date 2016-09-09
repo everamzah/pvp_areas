@@ -84,13 +84,12 @@ minetest.register_chatcommand("pvp_areas", {
 		elseif param ~= "" then
 			minetest.chat_send_player(name, "Invalid usage.  Type \"/help pvp_areas\" for more information.")
 		else
-			minetest.chat_send_player(name, "Listing information to STDOUT.")
-			print()
-			print("---")
-			for i = 0, #pvp_areas - 1 do
-				print(dump(pvp_areas_store:get_area(i)))
+			for k, v in pairs(pvp_areas) do
+				local id = k - 1
+				local min = v.min
+				local max = v.max
+				minetest.chat_send_player(name, id .. ": " .. minetest.pos_to_string(min) .. " " .. minetest.pos_to_string(max))
 			end
-			print()
 		end
 	end
 })
