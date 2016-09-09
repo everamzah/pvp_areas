@@ -58,7 +58,7 @@ minetest.register_chatcommand("pvp_areas", {
 			elseif not pvp_areas_players[name].pos2 then
 				minetest.chat_send_player(name, "Position 2 missing, use \"/pvp_areas pos2\" to set.")
 			else
-				pvp_areas_store:insert_area(pvp_areas_players[name].pos1, pvp_areas_players[name].pos2, "pvp_areas")
+				pvp_areas_store:insert_area(pvp_areas_players[name].pos1, pvp_areas_players[name].pos2, "pvp_areas", #pvp_areas)
 				table.insert(pvp_areas, pvp_areas_store:get_area(#pvp_areas))
 				update_pvp_areas()
 				save_pvp_areas()
