@@ -8,7 +8,7 @@ local pvp_areas_modname = minetest.get_current_modname()
 
 local hasareasmod = minetest.get_modpath("areas")
 
-local safemode = minetest.setting_getbool("pvp_areas.safemode") or false
+local safemode = minetest.setting_getbool("pvp_areas.safemode")
 local area_label = minetest.setting_get("pvp_areas.label") or "Defined area."
 
 local pvp_areas_store = AreaStore()
