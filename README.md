@@ -10,6 +10,10 @@ Use safemode to make areas be safe zones; otherwise they are killzones by defaul
 	* safemode = true --> PvP Control areas are safe zones
 	* default is `false`, making PvP Control areas kill zones
 
+* `pvp_areas.monsterDoNoDamage`
+	* monsterDoNoDamage = true --> monster can not damage player 
+	* default is `false`, so monster will damage the player
+
 * `pvp_areas.label`
 	* if ShadowNinja's `areas` mod is also present with HUD registration feature, this label will be displayed anywhere
 		a PvP Control area has been set.

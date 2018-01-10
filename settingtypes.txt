@@ -1,2 +1,16 @@
 # Allow PvP by default.
-pvp_areas_enable_pvp (PvP by Default) bool false
+pvp_areas_enable_pvp = true
+
+# pvp_areas are for PVP
+# default: pvp_areas.safemode = false
+pvp_areas.safemode = false
+
+# Monster do no damage to player 
+# false = monster do damage to player
+# default: pvp_areas.monsterDoNoDamage = false
+pvp_areas.monsterDoNoDamage = false
+
+# pvp_areas.label
+# name of th pvp area
+# pvp_areas.label = "Defined area."
+

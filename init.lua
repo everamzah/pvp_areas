@@ -8,8 +8,15 @@ local pvp_areas_modname = minetest.get_current_modname()
 
 local hasareasmod = minetest.get_modpath("areas")
 
-local safemode = minetest.setting_getbool("pvp_areas.safemode")
+local safemode = minetest.setting_getbool("pvp_areas.safemode") or false
+minetest.log("action", "[" .. pvp_areas_modname .. "] pvp_areas.safemode: " .. tostring(safemode))
+
 local area_label = minetest.setting_get("pvp_areas.label") or "Defined area."
+minetest.log("action", "[" .. pvp_areas_modname .. "] pvp_areas.label: " .. area_label)
+
+local monster_do_no_damage = minetest.setting_getbool("pvp_areas.monsterDoNoDamage") or false
+minetest.log("action", "[" .. pvp_areas_modname .. "] pvp_areas.monsterDoNoDamage: " .. tostring(monster_do_no_damage))
+
 
 local pvp_areas_store = AreaStore()
 pvp_areas_store:from_file(pvp_areas_worlddir .. "/pvp_areas_store.dat")
@@ -119,12 +126,18 @@ end
 
 -- Register punchplayer callback.
 minetest.register_on_punchplayer(function(player, hitter, time_from_last_punch, tool_capabilities, dir, damage)
+
+	-- check if hitter != Player 
+	if hitter:is_player() == false then
+		return monster_do_no_damage 
+	end
+	
 	for k, v in pairs(pvp_areas_store:get_areas_for_pos(player:getpos())) do
 		if k then
-			return KILL_NO
+			return AREA_ACTIVATE 
 		end
 	end
-	return KILL_OK
+	return AREA_NOACTIVATE 
 end)
 
 if hasareasmod then
