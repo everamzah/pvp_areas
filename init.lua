@@ -8,14 +8,14 @@ local pvp_areas_modname = minetest.get_current_modname()
 
 local hasareasmod = minetest.get_modpath("areas")
 
-local safemode = minetest.setting_getbool("pvp_areas.safemode") or false
+local safemode = minetest.setting_getbool("pvp_areas.safemode")
 minetest.log("action", "[" .. pvp_areas_modname .. "] pvp_areas.safemode: " .. tostring(safemode))
 
 local area_label = minetest.setting_get("pvp_areas.label") or "Defined area."
 minetest.log("action", "[" .. pvp_areas_modname .. "] pvp_areas.label: " .. area_label)
 
-local monster_do_no_damage = minetest.setting_getbool("pvp_areas.monsterDoNoDamage") or false
-minetest.log("action", "[" .. pvp_areas_modname .. "] pvp_areas.monsterDoNoDamage: " .. tostring(monster_do_no_damage))
+local monster_can_damage_player = minetest.setting_getbool("pvp_areas.monster_can_damage_player") or true
+minetest.log("action", "[" .. pvp_areas_modname .. "] pvp_areas.monster_can_damage_player: " .. tostring(monster_can_damage_player))
 
 
 local pvp_areas_store = AreaStore()
@@ -113,15 +113,23 @@ minetest.register_chatcommand("pvp_areas", {
 	end
 })
 
+-- if monster can damage player
+local MONSTER_DAMAGE_RULE = false 
+if monster_can_damage_player == false then
+	MONSTER_DAMAGE_RULE = true
+end 
+
 local KILL_NO = true
 local KILL_OK = false
 
-local AREA_ACTIVATE = KILL_OK
-local AREA_NOACTIVATE = KILL_NO
+local ACTIVATE_AREA_DAMAGE_RULE = KILL_OK
+local NOACTIVATE_AREA_DAMAGE_RULE = KILL_NO
+
+
 
 if safemode then
-	AREA_ACTIVATE = KILL_NO
-	AREA_NOACTIVATE = KILL_OK
+	ACTIVATE_AREA_DAMAGE_RULE = KILL_NO
+	NOACTIVATE_AREA_DAMAGE_RULE = KILL_OK
 end
 
 -- Register punchplayer callback.
@@ -129,15 +137,17 @@ minetest.register_on_punchplayer(function(player, hitter, time_from_last_punch, 
 
 	-- check if hitter != Player 
 	if hitter:is_player() == false then
-		return monster_do_no_damage 
+		if monster_can_damage_player then
+			return MONSTER_DAMAGE_RULE
+		end 
 	end
 	
 	for k, v in pairs(pvp_areas_store:get_areas_for_pos(player:getpos())) do
 		if k then
-			return AREA_ACTIVATE 
+			return ACTIVATE_AREA_DAMAGE_RULE 
 		end
 	end
-	return AREA_NOACTIVATE 
+	return NOACTIVATE_AREA_DAMAGE_RULE 
 end)
 
 if hasareasmod then

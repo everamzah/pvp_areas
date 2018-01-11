@@ -5,10 +5,11 @@ pvp_areas_enable_pvp = true
 # default: pvp_areas.safemode = false
 pvp_areas.safemode = false
 
-# Monster do no damage to player 
+# Monster can damage player 
 # false = monster do damage to player
-# default: pvp_areas.monsterDoNoDamage = false
-pvp_areas.monsterDoNoDamage = false
+# default: pvp_areas.monster_can_damage_player = true
+# if you want to change this 
+# pvp_areas.monster_can_damage_player = false
 
 # pvp_areas.label
 # name of th pvp area
