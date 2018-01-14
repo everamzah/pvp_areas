@@ -119,17 +119,17 @@ if monster_can_damage_player == false then
 	MONSTER_DAMAGE_RULE = true
 end 
 
-local KILL_NO = true
-local KILL_OK = false
+local GET_DAMAGE = true
+local GET_NO_DAMAGE = false
 
-local ACTIVATE_AREA_DAMAGE_RULE = KILL_OK
-local NOACTIVATE_AREA_DAMAGE_RULE = KILL_NO
+local ACTIVATE_AREA_DAMAGE_RULE = GET_DAMAGE
+local NOACTIVATE_AREA_DAMAGE_RULE = GET_NO_DAMAGE
 
 
 
 if safemode then
-	ACTIVATE_AREA_DAMAGE_RULE = KILL_NO
-	NOACTIVATE_AREA_DAMAGE_RULE = KILL_OK
+	ACTIVATE_AREA_DAMAGE_RULE = GET_DAMAGE
+	NOACTIVATE_AREA_DAMAGE_RULE = GET_NO_DAMAGE
 end
 
 -- Register punchplayer callback.
