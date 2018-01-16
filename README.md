@@ -5,6 +5,7 @@ Sets an area for PvP control.
 Use safemode to make areas be safe zones; otherwise they are killzones by default.
 
 ## Config
+in minetest.conf
 
 * `pvp_areas.safemode`
 	* safemode = true --> PvP Control areas are safe zones

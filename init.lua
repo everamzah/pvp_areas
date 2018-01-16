@@ -8,8 +8,10 @@ local pvp_areas_modname = minetest.get_current_modname()
 
 local hasareasmod = minetest.get_modpath("areas")
 
-local safemode = minetest.setting_getbool("pvp_areas.safemode")
+local safemode = minetest.setting_getbool("pvp_areas.safemode") or false
 local area_label = minetest.setting_get("pvp_areas.label") or "Defined area."
+-- if false Mob does Damage
+local mobsDoNoDamage = false
 
 local pvp_areas_store = AreaStore()
 pvp_areas_store:from_file(pvp_areas_worlddir .. "/pvp_areas_store.dat")
@@ -112,19 +114,39 @@ local KILL_OK = false
 local AREA_ACTIVATE = KILL_OK
 local AREA_NOACTIVATE = KILL_NO
 
+local savemodeToString = "FALSCH" -- only for debugging
 if safemode then
 	AREA_ACTIVATE = KILL_NO
 	AREA_NOACTIVATE = KILL_OK
+	savemodeToString = "WAHR"
 end
 
 -- Register punchplayer callback.
 minetest.register_on_punchplayer(function(player, hitter, time_from_last_punch, tool_capabilities, dir, damage)
+	local isPlayer = hitter:is_player()
+	
+	if hitter:is_player() == false then
+		return mobsDoNoDamage -- if this is a MOB then give Damage
+	end
+	--[[
+	local IsPlayerToString = "PLAYER"	-- only for debugging
+	if isplayer then 
+		IsPlayerToString = "PLAYER"			-- only for debugging
+	else
+		IsPlayerToString = "MOB"				-- only for debugging
+		return mobsDoNoDamage -- if this is a MOB then give Damage
+	end
+	]]--
+	
+	local playername = player:get_player_name() 
 	for k, v in pairs(pvp_areas_store:get_areas_for_pos(player:getpos())) do
 		if k then
-			return KILL_NO
+			--minetest.chat_send_player(playername, "in loop - safemode"..savemodeToString.." isPlayer "..IsPlayerToString)
+			return AREA_ACTIVATE --KILL_NO
 		end
 	end
-	return KILL_OK
+	--minetest.chat_send_player(playername, "after - safemode"..savemodeToString.." isPlayer "..IsPlayerToString)
+	return AREA_NOACTIVATE --KILL_OK
 end)
 
 if hasareasmod then
