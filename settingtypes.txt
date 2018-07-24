@@ -1,2 +1,2 @@
 # Allow PvP by default.
-pvp_areas_enable_pvp (PvP by Default) bool false
+pvp_areas.enable_pvp (PvP by Default) bool false

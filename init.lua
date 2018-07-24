@@ -16,7 +16,7 @@ local mobsDoNoDamage = false
 local pvp_areas_store = AreaStore()
 pvp_areas_store:from_file(pvp_areas_worlddir .. "/pvp_areas_store.dat")
 
-local pvp_default = minetest.is_yes(minetest.setting_getbool("pvp_areas_enable_pvp"))
+local pvp_default = minetest.is_yes(minetest.setting_getbool("pvp_areas.enable_pvp"))
 minetest.log("action", "[" .. pvp_areas_modname .. "] PvP by Default: " .. tostring(pvp_default))
 
 local pvp_areas_players = {}
